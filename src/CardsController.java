@@ -18,7 +18,7 @@ public class CardsController {
     private TextField txtBottom;
 
     @FXML
-    private Button btnVerfiy;
+    private Button btnVerify;
 
     @FXML
     void findSolution(ActionEvent event) {

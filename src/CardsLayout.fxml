@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.221" fx:controller="CardsController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CardsController">
    <children>
       <Pane prefHeight="350.0" prefWidth="450.0">
          <children>
@@ -16,7 +15,7 @@
             <Button fx:id="btnRefresh" layoutX="352.0" layoutY="22.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
             <Label layoutX="24.0" layoutY="307.0" text="Enter an expression:" />
             <TextField fx:id="txtBottom" layoutX="164.0" layoutY="302.0" />
-            <Button fx:id="btnVerfiy" layoutX="355.0" layoutY="302.0" mnemonicParsing="false" onAction="#verify" text="Verify" />
+            <Button fx:id="btnVerify" layoutX="355.0" layoutY="302.0" mnemonicParsing="false" onAction="#verify" text="Verify" />
          </children>
       </Pane>
    </children>
