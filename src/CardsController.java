@@ -1,38 +1,147 @@
+import java.util.HashSet;
+import java.util.Set;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class CardsController {
 
-    @FXML
-    private Button btnSolution;
+	@FXML
+	private Pane pnCards;
 
-    @FXML
-    private TextField txtTop;
+	@FXML
+	private Button btnSolution;
 
-    @FXML
-    private Button btnRefresh;
+	@FXML
+	private TextField txtTop;
 
-    @FXML
-    private TextField txtBottom;
+	@FXML
+	private Button btnRefresh;
 
-    @FXML
-    private Button btnVerify;
+	@FXML
+	private TextField txtBottom;
 
-    @FXML
-    void findSolution(ActionEvent event) {
+	@FXML
+	private Button btnVerify;
 
-    }
+	@FXML
+	private ImageView img0;
 
-    @FXML
-    void refresh(ActionEvent event) {
+	@FXML
+	void findSolution(ActionEvent event) {
+		//Use the card numbers to find a solution that adds to 24
+	}
 
-    }
+	@FXML
+	void refresh(ActionEvent event) {
+		//display 4 random cards
+		boolean[] usedCards = new boolean[52];
+		int[] validNumbers = new int[4];
 
-    @FXML
-    void verify(ActionEvent event) {
+		int count = 0;	String suite = "", cardType;
+		pnCards.getChildren().clear();
+		while (count < 4) {
+			//int card = (int) (Math.random() * 52);
+			//If statement for card suite
+			int card = (int) (Math.random() * 13),
+					suiteNum = (int) (Math.random() * 4);
 
-    }
+			while (suiteNum == 0)
+				suiteNum = (int) (Math.random() * 4);
+
+			if (suiteNum == 1) {
+				suite = "clubs";
+			}
+			else if (suiteNum == 2) {
+				suite = "diamonds";
+			}
+			else if (suiteNum == 3) {
+				suite = "hearts";
+			}
+			else if (suiteNum == 4) {
+				suite = "spades";
+			}
+
+			//If statement for card numbers
+			while (card == 0)
+				card = (int) (Math.random() * 13);
+
+			if (card == 1) {
+				cardType = "ace";
+			}
+			else if (card == 11) {
+				cardType = "jack";
+			}
+			else if (card == 12) {
+				cardType = "queen";
+			}
+			else if (card == 13) {
+				cardType = "king";
+			}
+			else {
+				cardType = card + "";
+			}
+			//Figure out how to stop duplicate cards from popping up 
+			Set<String> s = new HashSet<String>();
+			String fileName = "file:Cards/" + cardType + "_of_" + suite + ".png";
+
+			s.add(fileName);
+
+			if (s.equals(fileName)) {
+				System.out.println("Duplicate card detected!");
+			}
+
+
+			if (!(usedCards[card * suiteNum])) {
+				usedCards[card] = true;
+
+				//Moves card over
+				//for (int i = 0; i < 4; i++) {
+				//Group pillar = genColumn();
+				//pillar.setTranslateX(i * 146);
+
+
+				//columns.getChildren().add(pillar);
+				//}
+
+				img0 = new ImageView(new Image(fileName));
+				//img0 = new ImageView(new Image("file:Cards/8_of_spades.png"));
+
+
+				img0.setScaleX(.6);	img0.setScaleY(.6);
+				img0.setTranslateX(count * 121);
+				img0.setTranslateY(-55);
+
+				int value = card % 13;
+				validNumbers[count] = (value == 0) ? 13 : value;
+				count++;
+
+
+				pnCards.getChildren().add(img0);
+			}
+
+
+		}
+	}
+
+	@FXML
+	void verify(ActionEvent event) {
+		char ch = '?';
+		if (ch == '(' || ch == ')' || ch == '/' || ch == '+' || ch == '-' || ch == '*') {
+			//see if expression adds up to 24?
+		}
+	}
+
+
+	@FXML
+	public void initialize() {
+		refresh(null);
+	}
 
 }
+
