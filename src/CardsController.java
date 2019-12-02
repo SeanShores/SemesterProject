@@ -46,7 +46,6 @@ public class CardsController {
 		int count = 0;	String suite = "", cardType;
 		pnCards.getChildren().clear();
 		while (count < 4) {
-			//int card = (int) (Math.random() * 52);
 			//If statement for card suite
 			int card = (int) (Math.random() * 13),
 					suiteNum = (int) (Math.random() * 4);
@@ -66,6 +65,7 @@ public class CardsController {
 			else if (suiteNum == 4) {
 				suite = "spades";
 			}
+			
 
 			//If statement for card numbers
 			while (card == 0)
@@ -86,33 +86,13 @@ public class CardsController {
 			else {
 				cardType = card + "";
 			}
-			//Figure out how to stop duplicate cards from popping up 
-			Set<String> s = new HashSet<String>();
+			
+
 			String fileName = "file:Cards/" + cardType + "_of_" + suite + ".png";
-
-			s.add(fileName);
-
-			if (s.equals(fileName)) {
-				System.out.println("Duplicate card detected!");
-			}
-
-
 			if (!(usedCards[card * suiteNum])) {
-				usedCards[card] = true;
-
-				//Moves card over
-				//for (int i = 0; i < 4; i++) {
-				//Group pillar = genColumn();
-				//pillar.setTranslateX(i * 146);
-
-
-				//columns.getChildren().add(pillar);
-				//}
+				usedCards[card * suiteNum] = true;
 
 				img0 = new ImageView(new Image(fileName));
-				//img0 = new ImageView(new Image("file:Cards/8_of_spades.png"));
-
-
 				img0.setScaleX(.6);	img0.setScaleY(.6);
 				img0.setTranslateX(count * 121);
 				img0.setTranslateY(-55);
@@ -121,11 +101,8 @@ public class CardsController {
 				validNumbers[count] = (value == 0) ? 13 : value;
 				count++;
 
-
 				pnCards.getChildren().add(img0);
 			}
-
-
 		}
 	}
 
