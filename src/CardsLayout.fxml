@@ -12,9 +12,9 @@
          <children>
             <Button fx:id="btnSolution" layoutX="24.0" layoutY="22.0" mnemonicParsing="false" onAction="#findSolution" text="Find a Solution" />
             <TextField fx:id="txtTop" layoutX="164.0" layoutY="22.0" prefHeight="25.0" prefWidth="260.0" />
-            <Button fx:id="btnRefresh" layoutX="473.0" layoutY="22.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+            <Button fx:id="btnRefresh" defaultButton="true" layoutX="473.0" layoutY="22.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
             <Label layoutX="24.0" layoutY="307.0" text="Enter an expression:" />
-            <TextField fx:id="txtBottom" layoutX="164.0" layoutY="302.0" prefHeight="25.0" prefWidth="260.0" />
+            <TextField fx:id="txtBottom" layoutX="164.0" layoutY="302.0" prefHeight="25.0" prefWidth="260.0" promptText="Enter whole numbers only" />
             <Button fx:id="btnVerify" layoutX="483.0" layoutY="302.0" mnemonicParsing="false" onAction="#verify" text="Verify" />
             <Pane fx:id="pnCards" layoutX="14.0" layoutY="69.0" prefHeight="223.0" prefWidth="557.0" />
          </children>
