@@ -33,35 +33,29 @@ public class CardsController {
 	private Button btnVerify;
 
 	@FXML
-	private ImageView img0;
-
-	@FXML
 	void findSolution(ActionEvent event) {
 		//Use the card numbers to find a solution that adds to 24
-		ScriptEngineManager sem = new ScriptEngineManager();
-	    ScriptEngine engine = sem.getEngineByName("javascript");
+		ScriptEngineManager mgr = new ScriptEngineManager();
+	    ScriptEngine js = mgr.getEngineByName("JavaScript");
 
 	    String solution = null;
-	    for (int i = 0; i < 4; i++) {
-	    	System.out.println("Card " + i + ": " + cardNum[i]);
-	    }
 	    
 	    char[] operations = new char[] { '+', '-', '*', '/' };
 	    
 	    for (int i = 0; i < 4; i++) {
 	        for (int j = 0; j < 4; j++) {
 	            for (int k = 0; k < 4; k++) {
-	            	
 	                try {
 	                    String exp = "" + cardNum[0] + operations[i] + cardNum[1] + operations[j]
 	                            + cardNum[2] + operations[k] + cardNum[3];
-	                    String res = engine.eval(exp).toString();
+	                    String res = js.eval(exp).toString();
 	                    if (Double.valueOf(res).intValue() == 24) {
 	                        solution = exp;
 	                        txtTop.setText(exp);
-	                        System.out.println("Solution: " + exp);
+	                        System.out.println("Possible solution: " + exp);
 	                    }
-	                } catch (ScriptException e) {
+	                }
+	                catch (ScriptException e) {
 	                    System.out.println("Error");
 	                }
 	            }
@@ -69,7 +63,6 @@ public class CardsController {
 	    }
 	    if (solution == null) {
 	    	txtTop.setText("No solution");
-	    	System.out.println("No Solution");
 	    }
 	}
 
@@ -85,7 +78,6 @@ public class CardsController {
 			//If statement for card suite
 			int card = (int) (Math.random() * 13),
 					suiteNum = (int) (Math.random() * 4);
-			
 
 			while (suiteNum == 0)
 				suiteNum = (int) (Math.random() * 4);
@@ -104,7 +96,7 @@ public class CardsController {
 			}
 			
 
-			//If statement for card numbers
+			//If statement to load correct cards
 			while (card == 0)
 				card = (int) (Math.random() * 13);
 
@@ -124,23 +116,23 @@ public class CardsController {
 				cardType = card + "";
 			}
 			
+			//Used to allow other methods to see the card numbers
 			cardNum[count] = card + "";
-			System.out.println("Card number "+ count + " = " + cardNum[count]);
 
 			String fileName = "file:Cards/" + cardType + "_of_" + suite + ".png";
 			if (!(usedCards[card * suiteNum])) {
 				usedCards[card * suiteNum] = true;
 
-				img0 = new ImageView(new Image(fileName));
-				img0.setScaleX(.6);	img0.setScaleY(.6);
-				img0.setTranslateX(count * 121);
-				img0.setTranslateY(-55);
+				ImageView img = new ImageView(new Image(fileName));
+				img.setScaleX(.6);	img.setScaleY(.6);
+				img.setTranslateX(count * 121);
+				img.setTranslateY(-55);
 
 				int value = card % 13;
 				validNumbers[count] = (value == 0) ? 13 : value;
 				count++;
 
-				pnCards.getChildren().add(img0);
+				pnCards.getChildren().add(img);
 			}
 		}
 	}
@@ -150,42 +142,25 @@ public class CardsController {
 		ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine js = mgr.getEngineByName("JavaScript");
         
-        //See if spaces can be added in between the operators to recognize
-        //valid numbers in the expression?
-	    String expression = "" + js.eval( txtBottom.getText() );
-	    boolean validOperator = false;
+        //Parse expression to check if numbers are the same as the card values
+        String expression = txtBottom.getText();
+        String tokens[] = expression.split("[-+*/]");	boolean cardsValid[] = new boolean[4];
+        System.out.println("\nExpression checked: " + expression);
         
-        if (expression.contains("+") || expression.contains("-") ||
-        		expression.contains("*") || expression.contains("/")) {
-        	validOperator = true;
-        }
-        
-        //For some reason the cards are showing up invalid even
-        //though they are valid.  WHY?????
         for (int i = 0; i < 4; i++) {
-        	System.out.print("Card " + i + " valid? ");
-        	if (expression.contains(cardNum[i] + "")) {
-        		System.out.println(cardNum[i] + ": True");
-        	}
-        	else {
-        		System.out.println(cardNum[i] + ": False");
-        	}
-        } 
-        
+        	for (String card : tokens) {
+            	if (card.equals(cardNum[i]))
+            		cardsValid[i] = true;
+            }
+        	System.out.println("Card " + (i + 1) + " valid? (" + cardNum[i] + "):" + " " + cardsValid[i]);
+        }
 	    
-	    if ( !expression.contains(cardNum[0] + "") || !expression.contains(cardNum[1] + "") ||
-	    		!expression.contains(cardNum[2] + "") || !expression.contains(cardNum[3] + "") ||
-	    		!expression.contains("+") || !validOperator) {
-	    	System.out.println("Not right dude");
+	    if ( !cardsValid[0] || !cardsValid[1] || !cardsValid[2] || !cardsValid[3]) {
 	    	txtTop.setText("Use card numbers only!");
 	    	return 1;
-	    	
 	    }
 	    
-	    int exp = Math.round( Integer.parseInt(expression) );
-	    System.out.println(exp);
-	    
-	    if (exp == 24) {
+	    if (Math.round( Double.parseDouble("" + js.eval(expression)) ) == 24) {
 			txtTop.setText("Valid!");
 		}
 		else {
@@ -197,6 +172,7 @@ public class CardsController {
 
 	@FXML
 	public void initialize() {
+		txtTop.setEditable(false);
 		refresh(null);
 	}
 
