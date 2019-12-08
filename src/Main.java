@@ -4,6 +4,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*
+ * The main function, which uses FXMLLoader to display everything, as well as setting the title
+ */
+
 public class Main extends Application{
 
 	public static void main(String[] args) {
