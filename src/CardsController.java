@@ -9,10 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 public class CardsController {
 
-	static String cardNum[] = new String[4];
+	static String cardNum[] = new String[4]; 
 	
 	/*
 	 * Buttons and textfield identifiers.
@@ -89,7 +88,7 @@ public class CardsController {
 	//Generate 4 random cards and add them to pnCards
 	@FXML
 	void refresh(ActionEvent event) {
-		
+
 		boolean[] usedCards = new boolean[53];
 		int count = 0;	String suite = "", cardType;
 
@@ -169,7 +168,7 @@ public class CardsController {
 	
 	//Verify checks two things: User entered an equation that equals 24, and used all 4 numbers generated
 	@FXML
-	int verify(ActionEvent event) throws ScriptException {
+	int verify(ActionEvent event) throws ScriptException{
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine js = mgr.getEngineByName("JavaScript");
 
@@ -201,6 +200,8 @@ public class CardsController {
 
 		if (Math.round( Double.parseDouble("" + js.eval(expression)) ) == 24) {
 			txtTop.setText("Valid!");
+			long endTime = System.currentTimeMillis() / 1000;
+			System.out.println("Problem solved in: " + endTime + " seconds");
 		}
 		else {
 			txtTop.setText("Invalid!");
